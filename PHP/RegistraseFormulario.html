@@ -1,10 +1,14 @@
+
 <html>
     <head>
         <title>Registrarse</title>
     </head>
     <body>
-        <form method="post" action="RegisterPHP.php">
+        <form method="post" action="register_php.php">
             <h1>Ingrese sus datos</h1>
+             <?php if (isset($_GET['error'])){?>
+                <p class ="error"><?php echo $_GET['error']; ?></p>
+            <?php } ?>
             <input type="text" name="nombre">nombre
             <br>
             <input type="text" name="apellido">apellido
