@@ -45,7 +45,7 @@ session_start();
 	    
         $query1 = "SELECT * FROM users WHERE mail_Name ='$correo'";
         
-            $result= mysqli_query($res,$query1);
+            $result= mysqli_query($bd,$query1);
 
             if(mysqli_num_rows($result)>0)
             {
@@ -56,7 +56,7 @@ session_start();
                 $query2 ="INSERT INTO users(mail_Name,username,password,name,surname,date_Of_Birth)
                 VALUES('$correo','$nombreU','$contraseña','$nombre','$apellido','$fecha')";
 
-                $result2=  mysqli_query($res,$query2);
+                $result2=  mysqli_query($bd,$query2);
                 if($result2)
                 {
                     header("Location: RegistraseFormulario.php?error=The mail you try to use is taken try another&$correo")
