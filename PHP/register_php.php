@@ -20,10 +20,28 @@ session_start();
         $contraseña = validate($_POST['contraseña']);
 
         $contraseña = md5($contraseña);
+        //connection to the database
+        try
+        {
+            $connection_data=configBD("conexion.xml");
+            $bd= new PDO($connection_data[0],$connection_data[1],$connection_data[2]);
+            //echo "Connected
+        }catch(PDOException $e)
+        {
+            echo 'Database error:'.
+            $e->getMessage();
+        }
+        function configDB($file)
+        {
+            $data = simplexml_load_file($file);
+            $dbname= $data->xpath('//dbname');
+            $host = $data->xpath('//host');
+            $port = $data->xpath('//port');
+            $user = $data->xpath('//user');
+            $password = $data->xpath('//password');
+            return array('mysql:dbname='.$dbname[0].'host='.$host[0].'user='.$user[0].'password='.$password[0]);
 
-        //Aqui para checkear que el usuario no esta ya creado
-        $res = load_config(dirname(__FILE__)."/conexion.xml", dirname(__FILE__)."/conexion.xsd");
-	    $db = new PDO($res[0], $res[1], $res[2]);
+        }
 	    
         $query1 = "SELECT * FROM users WHERE mail_Name ='$correo'";
         
