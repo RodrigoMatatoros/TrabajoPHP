@@ -1,5 +1,5 @@
 <?php
-
+require ('configuration.php');
 session_start();
 
     if(isset($_POST['nombre'])&& isset($_POST['apellido'])&& isset($_POST['nombreUsuario'])
@@ -31,17 +31,7 @@ session_start();
             echo 'Database error:'.
             $e->getMessage();
         }
-        function configDB($file)
-        {
-            $data = simplexml_load_file($file);
-            $dbname= $data->xpath('//dbname');
-            $host = $data->xpath('//host');
-            $port = $data->xpath('//port');
-            $user = $data->xpath('//user');
-            $password = $data->xpath('//password');
-            return array('mysql:dbname='.$dbname[0].'host='.$host[0].'user='.$user[0].'password='.$password[0]);
-
-        }
+       
 	    
         $query1 = "SELECT * FROM users WHERE mail_Name ='$correo'";
         
@@ -72,24 +62,5 @@ session_start();
         header();
     }
 
-    function load_config($name, $schema){
-        $config = new DOMDocument();
-        $config->load($name);
-        $res = $config->schemaValidate($schema);
-        if ($res===FALSE){ 
-           throw new InvalidArgumentException("Check configuration file");
-        } 		
-        $data = simplexml_load_file($name);	
-        $ip = $data->xpath("//ip");
-        $name = $data->xpath("//name");
-        $user = $data->xpath("//user");
-        $password = $data->xpath("//password");	
-        $conn_string = sprintf("mysql:dbname=%s;host=%s", $name[0], $ip[0]);
-        $result = [];
-        $result[] = $conn_string;
-        $result[] = $user[0];
-        $result[] = $password[0];
-        return $result;
-    }
 
 ?>
