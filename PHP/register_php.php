@@ -1,5 +1,5 @@
 <?php
-require ('configuration.php');
+require_once('configuration.php');
 session_start();
 
     if(isset($_POST['nombre'])&& isset($_POST['apellido'])&& isset($_POST['nombreUsuario'])
@@ -21,23 +21,14 @@ session_start();
 
         $contraseña = md5($contraseña);
         //connection to the database
-        try
-        {
-            $connection_data=configBD("conexion.xml");
-            $bd= new PDO($connection_data[0],$connection_data[1],$connection_data[2]);
-            //echo "Connected
-        }catch(PDOException $e)
-        {
-            echo 'Database error:'.
-            $e->getMessage();
-        }
-       
-	    
-        $query1 = "SELECT * FROM users WHERE mail_Name ='$correo'";
         
-            $result= mysqli_query($bd,$query1);
+       var_dump($correo);
+	    
+        $query1 = "SELECT * FROM users WHERE mail_Name like '$correo'";
+        
+            $result= $bd->query($query1);
 
-            if(mysqli_num_rows($result)>0)
+            if($result->rowCount()>0)
             {
                 header("Location: RegistraseFormulario.php?error=The mail you try to use is taken try another&$correo");
                 
@@ -46,10 +37,10 @@ session_start();
                 $query2 ="INSERT INTO users(mail_Name,username,password,name,surname,date_Of_Birth)
                 VALUES('$correo','$nombreU','$contraseña','$nombre','$apellido','$fecha')";
 
-                $result2=  mysqli_query($bd,$query2);
+                $result2= $bd->query($query2);
                 if($result2)
                 {
-                    header("Location: RegistraseFormulario.php?error=The mail you try to use is taken try another&$correo")
+                    header("Location: RegistraseFormulario.php?error=Your account has been uploaded&$correo")
                     or die();
                 }
                 else{
@@ -59,7 +50,7 @@ session_start();
             }
     }else
     {
-        header();
+        header("FormularioInicial.html");
     }
 
 

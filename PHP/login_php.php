@@ -1,5 +1,5 @@
 <?php
-require ('configuration.php');
+require_once ('configuration.php');
 session_start();
 
 if (isset($_POST['correo']) && isset($_POST['contraseña'])) {
@@ -17,22 +17,18 @@ if (isset($_POST['correo']) && isset($_POST['contraseña'])) {
 	if (empty($mail)) {
 		header("Location: index.php?error=User Name is required");
 	    exit();
-	}else if(empty($pass)){
+	}else if(empty($password)){
         header("Location: index.php?error=Password is required");
 	    exit();
 	}else{
 		// hashing the password
         $pass = md5($pass);
-
-        $connection_data=configBD("conexion.xml");
-        $bd= new PDO($connection_data[0],$connection_data[1],$connection_data[2]);
-
         
-		$sql = "SELECT * FROM users WHERE mail_Name='$mail' AND password='$pass'";
+		$sql = "SELECT * FROM users WHERE mail_Name='$mail' AND password='$password'";
 
-		$result = mysqli_query($connection, $sql);
+		$result = $bd->query($sql);
 
-		if (mysqli_num_rows($result) === 1) {
+		if ($result->rowCount() === 1) {
 			$row = mysqli_fetch_assoc($result);
             if ($row['mail_Name'] === $mail && $row['password'] === $pass) {
             	$_SESSION['mail_Name'] = $row['mail_Name'];
