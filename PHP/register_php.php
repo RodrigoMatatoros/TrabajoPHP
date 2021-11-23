@@ -38,11 +38,9 @@ session_start();
                 $query2 = "insert into users(name,password,email,picture,date) values('$name','$password','$mail','$picture','$date')";
                 $result2  = $conn->query($query2);
                 //$result2=mysqli_query($conn,$query2);
-                var_dump($result2);
                 if($result2)
                 {
-                   echo("ok");
-                    ///header("Location: RegistraseFormulario.php?error=Your account has been uploaded&$mail");
+                    header("Location: LogearseFormulario.php");
                 }
                 else{
                     echo("okasda");
