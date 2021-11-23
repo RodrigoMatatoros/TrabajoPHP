@@ -9,17 +9,15 @@
              <?php if (isset($_GET['error'])){?>
                 <p class ="error"><?php echo $_GET['error']; ?></p>
             <?php } ?>
-            <input type="text" name="nombre">Name
+            <input type="text" name="name">Name
             <br>
-            <input type="text" name="apellido">Surname
+            <input type="text" name="mail">New mail name
             <br>
-            <input type="text" name="nombreUsuario">User
+            <input type="date" name="date_of_birth">Date of Birth
             <br>
-            <input type="date" name="fechaNacimiento">Date of Birth
+            <input type="password" name="password">Password
             <br>
-            <input type="text" name="correo">New mail name
-            <br>
-            <input type="password" name="contraseña">Password
+            <input type="file" name="picture">Profile Picture
             <br>
             <a href= "home.php"><input type="submit" name="subirUsuario"></a>
         </form>

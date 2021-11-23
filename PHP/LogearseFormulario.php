@@ -3,14 +3,14 @@
         <title>Login</title>
     </head>
     <body>
-        <form method="post" action="logearse_php.php">
+        <form method="post" action="login_php.php">
             <h1>Login</h1>
             <?php if (isset($_GET['error'])) { ?>
                 <p class="error"><?php echo $_GET['error']; ?></p>
             <?php } ?>
-            <input type="text" name="correo">Mail name
+            <input type="text" name="mail">Mail name
             <br>
-            <input type="text" name="contraseña">Password
+            <input type="password" name="password">Password
             <br>
             <input type="submit" name="logeo" value="logeo">
         </form>

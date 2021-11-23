@@ -1,5 +1,28 @@
 
 <?php
+
+
+try
+{
+    $conn = new PDO('mysql:host=localhost;dbname=dbname', "root",);
+}catch(PDOException $e)
+{
+    echo '**Database error: ' . $e->getMessage();
+}
+    
+
+
+/*
+$conn = mysqli_connect("localhost","root","","dbname") or die("Connection is not established");
+if($conn)
+{
+    return true;
+}
+else
+{
+    echo("fdsf");
+    return false;
+}
 /*
 function configBD($file)
 {
@@ -12,6 +35,7 @@ function configBD($file)
     return array('mysql:dbname=' . $dbname[0] . ';host=' . $host[0], $user[0], $password[0]);
 
 }*/
+/*
 function load_config($name, $schema)
 {
     $config = new DOMDocument();
@@ -54,4 +78,5 @@ try {
     echo 'Database error:' .
         $e->getMessage();
 }
+*/
 ?>

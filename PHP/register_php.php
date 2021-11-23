@@ -2,8 +2,8 @@
 require_once('configuration.php');
 session_start();
 
-    if(isset($_POST['nombre'])&& isset($_POST['apellido'])&& isset($_POST['nombreUsuario'])
-    && isset($_POST['fechaNacimiento'])&& isset($_POST['correo'])&& isset($_POST['contraseña']))
+    if(isset($_POST['name'])&& isset($_POST['mail'])&& isset($_POST['date_of_birth'])
+    && isset($_POST['password'])&& isset($_POST['picture']))
     {
         function validate($data){
             $data = trim($data);
@@ -12,40 +12,41 @@ session_start();
             return $data;
         }
 
-        $nombre = validate($_POST['nombre']);
-        $apellido = validate($_POST['apellido']);
-        $nombreU = validate($_POST['nombreUsuario']);
-        $fecha = validate($_POST['fechaNacimiento']);
-        $correo = validate($_POST['correo']);
-        $contraseña = validate($_POST['contraseña']);
+        $name = validate($_POST['name']);
+        $mail = validate($_POST['mail']);
+        $date = validate($_POST['date_of_birth']);
+        $password = validate($_POST['password']);
+        $picture = validate($_POST['picture']);
 
-        $contraseña = md5($contraseña);
+        
         //connection to the database
         
-       var_dump($correo);
-	    
-        $query1 = "SELECT * FROM users WHERE mail_Name like '$correo'";
+        $query1 = "SELECT * FROM users WHERE email like '$mail'";
         
-            $result= $bd->query($query1);
-
-            if($result->rowCount()>0)
+            $result = $conn->query($query1);
+            if($result ->rowCount() >0)
             {
-                header("Location: RegistraseFormulario.php?error=The mail you try to use is taken try another&$correo");
+                header("Location: RegistraseFormulario.php?error=The mail you try to use is taken try another&$mail");
                 
             }else
             {
-                $query2 ="INSERT INTO users(mail_Name,username,password,name,surname,date_Of_Birth)
-                VALUES('$correo','$nombreU','$contraseña','$nombre','$apellido','$fecha')";
-
-                $result2= $bd->query($query2);
+                //$query2 ="INSERT INTO users(name,password,email,picture,date)
+                // VALUES($name,$password,$mail,$picture,$date)";
+                $autoincrement = "ALTER TABLE users
+                MODIFY `id` MEDIUMINT NOT NULL AUTO_INCREMENT";
+                $auto = $conn ->query($autoincrement);
+                $query2 = "insert into users(name,password,email,picture,date) values('$name','$password','$mail','$picture','$date')";
+                $result2  = $conn->query($query2);
+                //$result2=mysqli_query($conn,$query2);
+                var_dump($result2);
                 if($result2)
                 {
-                    header("Location: RegistraseFormulario.php?error=Your account has been uploaded&$correo")
-                    or die();
+                   echo("ok");
+                    ///header("Location: RegistraseFormulario.php?error=Your account has been uploaded&$mail");
                 }
                 else{
-                    header("Location: RegistraseFormulario.php?error=The information cannot be uploaded&$correo")
-                    or die();
+                    echo("okasda");
+                    //header("Location: RegistraseFormulario.php?error=The information cannot be uploaded&$mail");
                 }
             }
     }else

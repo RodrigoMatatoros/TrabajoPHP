@@ -2,7 +2,7 @@
 require_once ('configuration.php');
 session_start();
 
-if (isset($_POST['correo']) && isset($_POST['contraseña'])) {
+if (isset($_POST['mail']) && isset($_POST['password'])) {
 
 	function validate($data){
        $data = trim($data);
@@ -11,37 +11,27 @@ if (isset($_POST['correo']) && isset($_POST['contraseña'])) {
 	   return $data;
 	}
 
-	$mail = validate($_POST['correo']);
-	$pass = validate($_POST['contraseña']);
+	$mail = validate($_POST['mail']);
+	$pass = validate($_POST['password']);
 
 	if (empty($mail)) {
-		header("Location: index.php?error=User Name is required");
+		header("Location: index.php?error=Mail Name is required");
 	    exit();
-	}else if(empty($password)){
+	}else if(empty($pass)){
         header("Location: index.php?error=Password is required");
 	    exit();
 	}else{
-		// hashing the password
-        $pass = md5($pass);
         
-		$sql = "SELECT * FROM users WHERE mail_Name='$mail' AND password='$password'";
+		$query1 = "SELECT * FROM users WHERE email like'$mail' and password like '$pass'";
+		$result = $conn->query($query1);
+		$result = $result->fetch();
+		if ($result['email']==$mail && $result['password']==$pass) {
+			$_SESSION['email']=$mail;
+			$user = $_SESSION['email'];
 
-		$result = $bd->query($sql);
+			echo "<script>window.open('home.php?email=$user','_self')</script>";
 
-		if ($result->rowCount() === 1) {
-			$row = mysqli_fetch_assoc($result);
-            if ($row['mail_Name'] === $mail && $row['password'] === $pass) {
-            	$_SESSION['mail_Name'] = $row['mail_Name'];
-            	$_SESSION['username'] = $row['username'];
-            	$_SESSION['name'] = $row['name'];
-                $_SESSION['surname'] = $row['surname'];
-                $_SESSION['date_Of_Birth'] = $row['date_Of_Birth'];
-            	header("Location: home.php");
-		        exit();
-            }else{
-				header("Location: index.php?error=Incorect mail name or password");
-		        exit();
-			}
+            
 		}else{
 			header("Location: index.php?error=Incorect mail_Name or password");
 	        exit();
