@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <host>127.0.0.1</host>
+    <username>root</username>
+    <port>3306</port>
+    <database>proyect_database</database>
+    <password/>
+</data>
