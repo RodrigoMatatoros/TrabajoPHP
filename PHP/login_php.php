@@ -1,5 +1,6 @@
 <?php
 require_once ('configuration.php');
+
 session_start();
 
 if (isset($_POST['mail']) && isset($_POST['password'])) {
@@ -13,6 +14,8 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
 
 	$mail = validate($_POST['mail']);
 	$pass = validate($_POST['password']);
+	/*$salt = "codephp";
+	$password_encrypted= sha1($pass,$salt);*/
 
 	if (empty($mail)) {
 		header("Location: index.php?error=Mail Name is required");
@@ -22,7 +25,8 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
 	    exit();
 	}else{
         
-		$query1 = "SELECT * FROM users WHERE email like'$mail' and password like '$pass'";
+		$query1 = "SELECT * FROM users WHERE email like'$mail' 
+		";
 		$result = $conn->query($query1);
 		$result = $result->fetch();
 		if ($result['email']==$mail && $result['password']==$pass) {

@@ -3,24 +3,28 @@ require_once('configuration.php');
 session_start();
 
     if(isset($_POST['name'])&& isset($_POST['mail'])&& isset($_POST['date_of_birth'])
-    && isset($_POST['password'])&& isset($_POST['picture']))
+    && isset($_POST['password'])&& isset($_POST['fileToUpload']))
     {
+        
         function validate($data){
             $data = trim($data);
             $data = stripslashes($data);
             $data = htmlspecialchars($data);
             return $data;
         }
-
-        $name = validate($_POST['name']);
+        
+        $name = validate($_POST['user_name']);
         $mail = validate($_POST['mail']);
         $date = validate($_POST['date_of_birth']);
         $password = validate($_POST['password']);
-        $picture = validate($_POST['picture']);
-
+        //$picture = validate($_POST['fileToUpload']);
+        /*$salt = "codephp";
+        $password_encrypted= sha1($pass,$salt);*/
+        $picture =upload();
         
         //connection to the database
         
+
         $query1 = "SELECT * FROM users WHERE email like '$mail'";
         
             $result = $conn->query($query1);
@@ -32,9 +36,7 @@ session_start();
             {
                 //$query2 ="INSERT INTO users(name,password,email,picture,date)
                 // VALUES($name,$password,$mail,$picture,$date)";
-                $autoincrement = "ALTER TABLE users
-                MODIFY `id` MEDIUMINT NOT NULL AUTO_INCREMENT";
-                $auto = $conn ->query($autoincrement);
+                
                 $query2 = "insert into users(name,password,email,picture,date) values('$name','$password','$mail','$picture','$date')";
                 $result2  = $conn->query($query2);
                 //$result2=mysqli_query($conn,$query2);
