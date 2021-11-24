@@ -14,13 +14,27 @@ if (isset($_GET['id']))
     $mensaje = $result_m->fetch();
 */
 //Get the message 
-$stmt = $conn->prepare('SELECT * FROM chat where msg_id = :messageid'); 
-$stmt->execute(     array(         'messageid' => $_GET['id']     ) ); 
+$query1 = "UPDATE chat SET readed=1 where msgId =$msg ";
+$result = $conn ->query($query1);
+$stmt = $conn->prepare('SELECT * FROM chat where msgId = :messageid'); 
+$stmt->execute(array('messageid' => $_GET['id'])); 
 $message = $stmt->fetch(PDO::FETCH_ASSOC);
+
 ?>
 <div>
-    <p>Sender user</p>
+    Sender user:
     <?=$message['sender_username'];?>
     <br>
-    <?=$message['msg_content'];?>                                        
+    Message:
+    <?=$message['msg_content'];?>
+    <br>
+    Date:
+    <?=$message['msgId'];?>
+    <br>
+    <?php
+    if($message['readed']>0)
+    {
+        echo "The message has been readed";
+    }
+    ?>
 </div>

@@ -5,10 +5,7 @@
     <body>
         <form method="post" action="login_php.php">
             <h1>Login</h1>
-            <?php if (isset($_GET['error'])) { ?>
-                <p class="error"><?php echo $_GET['error']; ?></p>
-            <?php } ?>
-            <input type="text" name="mail">Mail name
+            <input type="text" name="name">User Name
             <br>
             <input type="password" name="password">Password
             <br>

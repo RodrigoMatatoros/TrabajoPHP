@@ -3,37 +3,38 @@ require_once ('configuration.php');
 
 session_start();
 
-if (isset($_POST['mail']) && isset($_POST['password'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-	function validate($data){
+	/*function validate($data){
        $data = trim($data);
 	   $data = stripslashes($data);
 	   $data = htmlspecialchars($data);
 	   return $data;
-	}
-
-	$mail = validate($_POST['mail']);
-	$pass = validate($_POST['password']);
+	}*/
+	var_dump($_POST['name']);
+	var_dump($_POST['password']);
+	$name = ($_POST['name']);
+	$pass = ($_POST['password']);
 	/*$salt = "codephp";
 	$password_encrypted= sha1($pass,$salt);*/
-
-	if (empty($mail)) {
-		header("Location: index.php?error=Mail Name is required");
+	var_dump($name);
+	var_dump($pass);
+	if (empty($name)) {
+		header("Location: index.php?error=user Name is required");
 	    exit();
 	}else if(empty($pass)){
         header("Location: index.php?error=Password is required");
 	    exit();
 	}else{
         
-		$query1 = "SELECT * FROM users WHERE email like'$mail' 
-		";
+		$query1 = "SELECT * FROM users WHERE name like'$name'";
 		$result = $conn->query($query1);
 		$result = $result->fetch();
-		if ($result['email']==$mail && $result['password']==$pass) {
-			$_SESSION['email']=$mail;
-			$user = $_SESSION['email'];
+		var_dump($result);
+		if ($result['name']==$name && $result['password']==$pass) {
+			$_SESSION['name']=$name;
 
-			echo "<script>window.open('home.php?email=$user','_self')</script>";
+			header("Location: home.php");
 
             
 		}else{

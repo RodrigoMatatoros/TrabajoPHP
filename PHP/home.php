@@ -2,7 +2,7 @@
 require_once './functions.php';
 session_start();
 require_once('configuration.php');
-$user = $_SESSION['email'];
+$user = $_SESSION['name'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
 {
@@ -13,11 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $receiver = $selectId['id'];
     var_dump($receiver);
     $message =$_POST['message'];
+    $date = date('Y-m-d H:i:s');
 
     if($user != $sendToMail)
     {
-        $query2 = "INSERT INTO chat(sender_username,receiver_username,msg_content) VALUES ('$user','$sendToMail','$message')";
-        $result2 = $conn ->query($query2);
+        $query2 = "INSERT INTO chat(sender_username,receiver_username,msg_content,msg_date) VALUES ('$user','$sendToMail','$message','$date')";
+        $result2 = $conn->query($query2);
         header("Location: home.php");
     }
     /*if($_FILES['messageFile']['size']>0){
@@ -89,9 +90,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     <div class="todo">
         <div class="profile"> 
             <?php
-                
+                $user = $_SESSION['name'];
             // var_dump($user);
-                $get_user = "select * from users where name ='$user'";
+                $get_user = "select * from users where name like '$user'";
                 $result = $conn->query($get_user);
                 $rowCount = $result->fetch();
                 // var_dump($rowCount['id']);
@@ -114,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
            <?php
             foreach($select_m as $message):
            ?>
-           <a href="mensajes.php?id=<?=$message['msg_id'];?>">
+           <a href="mensajes.php?id=<?=$message['msgId'];?>">
                <div class="mensaje">
                     <?=$message['sender_username'];?>
                     <br>
@@ -153,6 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 <br>
                 <?=$message['msg_content'];?>
                 <br>
+                <?=$message['leido'];?>
               
             </div>
             <?php

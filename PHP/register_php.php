@@ -1,9 +1,9 @@
 <?php
 require_once('configuration.php');
+require_once('functions.php');
 session_start();
 
-    if(isset($_POST['name'])&& isset($_POST['mail'])&& isset($_POST['date_of_birth'])
-    && isset($_POST['password'])&& isset($_POST['fileToUpload']))
+    if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         
         function validate($data){
