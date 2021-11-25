@@ -16,16 +16,13 @@ session_start();
         $name = validate($_POST['user_name']);
         $mail = validate($_POST['mail']);
         $date = validate($_POST['date_of_birth']);
-        //$picture = validate($_POST['fileToUpload']);
-        /*$salt = "codephp";
-        $password_encrypted= sha1($pass,$salt);*/
         $picture =upload();
         
-        //connection to the database
+        //encrypt password
         $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
 
         $query1 = "SELECT * FROM users WHERE email like '$mail'";
-        
+        //connection to the database
             $result = $conn->query($query1);
             if($result ->rowCount() >0)
             {
@@ -33,19 +30,17 @@ session_start();
                 
             }else
             {
-                //$query2 ="INSERT INTO users(name,password,email,picture,date)
-                // VALUES($name,$password,$mail,$picture,$date)";
-                
+                //insert values in the database
                 $query2 = "insert into users(name,password,email,picture,date) values('$name','$password','$mail','$picture','$date')";
                 $result2  = $conn->query($query2);
-                //$result2=mysqli_query($conn,$query2);
+               
                 if($result2)
                 {
                     header("Location: LogearseFormulario.php");
                 }
                 else{
                     echo("okasda");
-                    //header("Location: RegistraseFormulario.php?error=The information cannot be uploaded&$mail");
+                    header("Location: RegistraseFormulario.php?error=The information cannot be uploaded&$mail");
                 }
             }
     }else

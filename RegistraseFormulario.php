@@ -1,7 +1,7 @@
 
 <html>
     <head>
-        <title>Registrarse</title>
+        <title>Registration</title>
     </head>
     <body>
         <form method="post"  action="register_php.php" enctype="multipart/form-data">
