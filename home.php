@@ -168,7 +168,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $query_m = "select * from chat where sender_username ='$user'  ORDER BY date DESC";
             $result_m = $conn ->query($query_m);
             $select_m = $result_m->fetchAll(PDO::FETCH_ASSOC);
-                  //$mensaje = $select_m['msg_content'];
            ?>
            <?php
             foreach($select_m as $message):
